@@ -1,8 +1,10 @@
 // src/app/api/auth/[...nextauth]/route.ts
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { Session } from "next-auth";
+import { JWT } from "next-auth/jwt";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -11,7 +13,6 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // 👇 Replace with your real auth logic (fetch from DB, Sanity, etc.)
         if (
           credentials?.username === "parent" &&
           credentials?.password === "password123"
@@ -31,16 +32,23 @@ export const authOptions = {
     signIn: "/auth/signin",
   },
   callbacks: {
-    async session({ session, token, user }: { session: any; token: any; user: any }) {
-      // Pass the user role to the session
-      if (token) {
-        session.user.role = token.role;
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (token && session.user) {
+        session.user = {
+          ...session.user,
+          role: token.role as string,
+        } as {
+          name?: string | null;
+          email?: string | null;
+          image?: string | null;
+          role?: string;
+        };
       }
       return session;
     },
-    async jwt({ token, user }: { token: any; user?: any }) {
+    async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
+        token.role = (user as { role?: string }).role;
       }
       return token;
     },

@@ -3,6 +3,30 @@ import QuizSection from "@/components/QuizSection";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
+interface Lesson {
+  _id: string;
+  title: string;
+}
+
+interface Module {
+  _id: string;
+  title: string;
+  description: string;
+  lessons?: Lesson[];
+}
+
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  answer: string;
+}
+
+interface Quiz {
+  _id: string;
+  title: string;
+  questions: QuizQuestion[];
+}
+
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
@@ -26,16 +50,16 @@ export default async function DashboardPage() {
       <h1 className="text-5xl font-extrabold text-center text-pink-600 mb-10">Your Learning Adventure</h1>
 
       <div className="space-y-6">
-        {modules.map((module: any) => (
+        {modules.map((module: Module) => (
           <div
             key={module._id}
             className="bg-white border-4 border-yellow-400 rounded-3xl shadow-xl p-6 transform hover:scale-105 transition-transform duration-300"
           >
             <h2 className="text-2xl font-bold text-purple-600 mb-2">{module.title}</h2>
             <p className="text-black text-base mb-4">{module.description}</p>
-            {module.lessons?.length > 0 && (
+            {(module.lessons?.length ?? 0) > 0 && (
               <ul className="list-disc pl-5 space-y-1 text-blue-800">
-                {module.lessons.map((lesson: any) => (
+                {module.lessons?.map((lesson: Lesson) => (
                   <li key={lesson._id} className="hover:text-pink-500 transition-colors">{lesson.title}</li>
                 ))}
               </ul>
@@ -47,7 +71,7 @@ export default async function DashboardPage() {
       {/* Fun and interactive quiz section */}
       <div className="mt-12">
         <h2 className="text-4xl font-extrabold text-center text-green-600 mb-6 animate-pulse">Quizzes</h2>
-        <QuizSection quizzes={quizzes} />
+        <QuizSection quizzes={quizzes as Quiz[]} />
       </div>
     </main>
   );
