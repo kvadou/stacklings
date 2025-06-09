@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stacklings",
-  description: "Learn to Earn",
+  title: "Learn to Earn",
+  description: "Kids learn about money and Bitcoin through interactive lessons, quizzes, and real Bitcoin rewards!",
 };
 
 export default function RootLayout({
@@ -25,6 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <title>Learn to Earn</title> {/* Update this title directly */}
+        <meta name="description" content="Kids learn about money and Bitcoin through interactive lessons, quizzes, and real Bitcoin rewards!" />
         <meta property="og:title" content="Learn to Earn" />
         <meta property="og:description" content="Kids learn about money and Bitcoin through interactive lessons, quizzes, and real Bitcoin rewards!" />
         <meta property="og:image" content="https://stacklings.com/path/to/your-image.png" />
