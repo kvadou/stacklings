@@ -16,12 +16,25 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Sign In</h1>
+    <main className="p-4 max-w-md mx-auto bg-gray-800 min-h-screen flex flex-col justify-center">
+      <h1 className="text-3xl font-bold mb-6 text-white text-center">Sign In</h1>
       <form onSubmit={handleLogin} className="space-y-4">
-        <input name="username" type="text" placeholder="Username" className="border p-2 w-full text-white placeholder:text-white" />
-        <input name="password" type="password" placeholder="Password" className="border p-2 w-full text-white placeholder:text-white" />
-        <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+        <input
+          name="username"
+          type="text"
+          placeholder="Username"
+          className="border border-white/50 bg-white/10 text-white placeholder-white p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          className="border border-white/50 bg-white/10 text-white placeholder-white p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
+        <button
+          type="submit"
+          className="bg-[#f7931a] hover:bg-[#e67e22] text-white px-4 py-3 rounded font-semibold w-full transition"
+        >
           Sign In
         </button>
       </form>
